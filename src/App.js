@@ -2,7 +2,6 @@
 import './App.css';
 import { useState } from 'react';
 import { Routes, Route, Link, useNavigate, Outlet, useParams } from 'react-router-dom'
-import axios from 'axios'
 
 import { Button, Container, Nav, Navbar, Row, Col, Carousel } from 'react-bootstrap';
 
@@ -28,7 +27,7 @@ function App() {
         <Navbar fixed="top" bg="success" variant="dark">
           <Navbar.Brand onClick={() => { navigate('/') }}>지안마트</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">스토어</Nav.Link>
+            <Nav.Link onClick={()=>{ navigate('/store')}}>스토어</Nav.Link>
             <Nav.Link onClick={() => { navigate('/detail') }}>detail</Nav.Link>
             <Nav.Link onClick={() => { navigate('/cs') }}>고객센터</Nav.Link>
           </Nav>
@@ -51,6 +50,8 @@ function App() {
             <Route path="qna" element={<div>qna</div>} />
             <Route path="fna" element={<div>fna</div>} />
           </Route>
+
+          <Route path="/store" element={<div>스토어페이지입니다</div>} />
 
           <Route path="*" element={
             <div>

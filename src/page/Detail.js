@@ -3,7 +3,7 @@ import { Button, Container, Nav, Navbar, Row, Col, Alert } from 'react-bootstrap
 import { useParams } from 'react-router-dom'
 
 function Detail(props) {
-    let [count, setCount]= useState(true)
+    let [count, setCount] = useState(true)
     let { link } = useParams();
 
     // 배열 내에서 id가 {link}인 오브젝트를 찾아 전체 값을 반환한다
@@ -18,12 +18,12 @@ function Detail(props) {
             setShowAlert(false);
         }, 2000)
         console.log('detail 렌더링후 2초경과')
-        
-        return ()=>{
-                clearTimeout(timer)
-                console.log('클린업펑션 동작')
-            }
-    }, )
+
+        return () => {
+            clearTimeout(timer)
+            console.log('클린업펑션 동작')
+        }
+    })
     // [3] detail 렌더링된 후 2초 경과시 showAlert 상태 false로 바꾼다
 
 
@@ -34,7 +34,7 @@ function Detail(props) {
     return (
 
         <Container>
-<Button onClick={()=>{setCount(!count)}}>df</Button>
+            {/* <Button onClick={()=>{setCount(!count)}}>df</Button> */}
             {/* [2] showAlert의 상태값 따라 알럿이 보이거나 사라짐 */}
             {showAlert == true ?
                 <Alertbox color="warning" text="2초 안에 구매시 90% 할인" /> :
