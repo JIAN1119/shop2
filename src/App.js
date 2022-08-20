@@ -2,6 +2,7 @@
 import './App.css';
 import { useState } from 'react';
 import { Routes, Route, Link, useNavigate, Outlet, useParams } from 'react-router-dom'
+import axios from 'axios'
 
 import { Button, Container, Nav, Navbar, Row, Col, Carousel } from 'react-bootstrap';
 
@@ -23,6 +24,7 @@ function App() {
     <div className="App">
 
       <Container fluid>
+
         <Navbar fixed="top" bg="success" variant="dark">
           <Navbar.Brand onClick={() => { navigate('/') }}>지안마트</Navbar.Brand>
           <Nav className="me-auto">
