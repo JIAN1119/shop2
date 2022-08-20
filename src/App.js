@@ -1,38 +1,63 @@
 
 import './App.css';
-import { Button, Container, Nav, Navbar, Row, Col, Carousel } from 'react-bootstrap';
 import { useState } from 'react';
-import shoesdata from './store/data'
+import { Routes, Route, Link, useNavigate, Outlet, useParams } from 'react-router-dom'
+
+import { Button, Container, Nav, Navbar, Row, Col, Carousel } from 'react-bootstrap';
+
+import shoesdata from './store/data';
+import Detail from './page/Detail';
+import { Home, Card } from './page/Home';
+import { Cs } from './page/Cs';
 
 
 function App() {
+  let {link} = useParams();
+  let [shoes, setShoes] = useState(shoesdata);
+  // let findShoes = shoes.find((a)=>{ return a.id == link})
 
-  let [shoes, setShoes] = useState(shoesdata)
-  console.log(shoes)
+  let navigate = useNavigate();
+
 
   return (
     <div className="App">
 
       <Container fluid>
         <Navbar fixed="top" bg="success" variant="dark">
-          <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+          <Navbar.Brand onClick={() => { navigate('/') }}>지안마트</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
+            <Nav.Link href="#home">스토어</Nav.Link>
+            <Nav.Link onClick={() => { navigate('/detail') }}>detail</Nav.Link>
+            <Nav.Link onClick={() => { navigate('/cs') }}>고객센터</Nav.Link>
           </Nav>
         </Navbar>
-
-        <Row>
-          <img src="img/bg.png" />
+        <Row className="py-3 my-3">
         </Row>
 
-        <Row>
-          <Card shoes={shoes[0]}/>
-          <Card shoes={shoes[1]}/>
-          <Card shoes={shoes[2]}/>
-      
-        </Row>
+
+
+        <Routes>
+          <Route path="/"
+            element={
+              <div>
+                <Home shoes={shoes} />
+              </div>} />
+
+          <Route path="/detail/:link" element={<Detail shoes={shoes} />} />
+
+          <Route path="/cs" element={<Cs />}>
+            <Route path="qna" element={<div>qna</div>} />
+            <Route path="fna" element={<div>fna</div>} />
+          </Route>
+
+          <Route path="*" element={
+            <div>
+              <p className='fs-1'>404</p>
+              <p className='fs-1'>존재하지 않는 페이지입니다</p>
+            </div>
+          }></Route>
+        </Routes>
+
 
       </Container>
 
@@ -40,16 +65,7 @@ function App() {
     </div>
   );
 
-  function Card(props) {
-    return (
-      <Col md={4}>
-        <img src={`img/shoes${props.shoes.id+1}.jpeg`} width="80%" />
-        <p className='fs-3 fw-normal'>{props.shoes.title}</p>
-        <p className='fs-3 fw-bolder'>{props.shoes.price}</p>
-      </Col>
-    )
 
-  }
 }
 
 export default App;
