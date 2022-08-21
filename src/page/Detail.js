@@ -1,23 +1,25 @@
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addCart } from '../store/store';
+
 import axios from 'axios';
 
 import { Button, Container, Nav, Navbar, Row, Col, Alert } from 'react-bootstrap';
 
 
 function Detail(props) {
-    
+
     let { link } = useParams();
+    let dispatch = useDispatch();
 
-    
-    let [findShoes, setFindShoes] =useState()
-    findShoes = props.shoes.find((a)=>{ return a.id == link})
+    let findShoes;
+    // let [findShoes, setFindShoes] = useState()
+    findShoes = props.shoes.find((a) => { return a.id == link })
+    console.log(findShoes)
+    // setFindShoes(findShoes = props.shoes.find((a) => { return a.id == link }))
 
-    console.log(props.shoes)
-    
-
-
+    // console.log(findShoes)
 
     // [1] alertbox의 상태값을 저장한다
     let [showAlert, setShowAlert] = useState(true)
@@ -35,15 +37,10 @@ function Detail(props) {
     })
     // [3] detail 렌더링된 후 2초 경과시 showAlert 상태 false로 바꾼다
 
-
-    // 2초 지나면 알럿박스 사라지도록 한다
-
-
-
     return (
 
         <Container>
-            {/* <Button onClick={()=>{setCount(!count)}}>df</Button> */}
+
             {/* [2] showAlert의 상태값 따라 알럿이 보이거나 사라짐 */}
             {showAlert == true ?
                 <Alertbox color="warning" text="2초 안에 구매시 90% 할인" /> :
@@ -58,7 +55,10 @@ function Detail(props) {
                     <p>{findShoes.content}</p>
 
                     <p className='fs-5 fw-semibold'>{findShoes.price + '원'}</p>
-                    <Button variant='success'>장바구니 담기</Button>
+                    <Button onClick={() => {
+                        dispatch(addCart({id : findShoes.id , title : findShoes.title, price: findShoes.price, count : 1}))
+
+                    }} variant='success'>장바구니 담기</Button>
                 </Col>
             </Row>
         </Container>

@@ -21,58 +21,12 @@ function App() {
   let [shoes, setShoes] = useState(shoesdata);
 
   let shoes2 = useSelector((state) => { return state.shoesdata })
-  let [moreshoes, setMoreShoes] = useState(shoes2)
+  let [moreshoes, setMoreShoes] = useState(shoes)
 
 
   // Home컴포넌트 변수
   let [clickCount, setClickCount] = useState(0)
   let [serverData, setServerData] = useState();
-
-  
-
-
-  // useEffect(() => {
-
-  //   axios.get('https://codingapple1.github.io/shop/data2.json').then((result) => {
-
-  //     console.log(result.data)
-  //     let shoesCopy = [...moreshoes, ...result.data];
-  //     setMoreShoes(shoesCopy);
-  //     console.log('데이터2 로드함수 마운트/업데이트')
-
-  //     console.log(moreshoes)
-  //   })
-  //     .catch(() => {
-  //       console.log('요청실패')
-  //     })
-
-  //   return () => {
-  //     console.log('데이터2 로드함수 클린업')
-  //   }
-
-  // }, [])
-
-  // useEffect(() => {
-
-  //   axios.get('https://codingapple1.github.io/shop/data3.json').then((result) => {
-  //     console.log('데이터3 로드함수 마운트/업데이트')
-  //     console.log(result.data)
-
-  //     let shoesCopy2 = [...moreshoes, ...result.data];
-  //     setMoreShoes(shoesCopy2);
-
-  //     console.log(moreshoes)
-  //   })
-  //     .catch(() => {
-  //       console.log('요청실패')
-  //     })
-
-  //   return () => {
-  //     console.log('데이터3 로드함수 클린업')
-  //   }
-
-  // }, [])
-
 
   return (
     <div className="App">
@@ -93,6 +47,7 @@ function App() {
 
 
 
+
         <Routes>
           <Route path="/"
             element={
@@ -101,21 +56,10 @@ function App() {
                 <Row>
                   <img src="img/bg.png" />
                 </Row>
-                <Row>
-                  {
-                    moreshoes.map((a, i) => {
-                      console.log(i + 1 + ' 번째 상품 리스트 생성')
-                      return (
-                        <Card shoes={a} key={i} />
-                      )
-                    })
-                  }
-                </Row>
+                <Home />
 
                 <Row>
-
                   <Button variant="light" onClick={() => {
-
                     if (clickCount == 0) {
                       setClickCount(clickCount + 1)
                       console.log('1회클릭')
@@ -143,12 +87,11 @@ function App() {
 
                     }
                   }}>상품 더보기</Button>
-
-
                 </Row>
+                {/* <Outlet></Outlet> */}
               </div>} />
 
-          <Route path="/detail/:link" element={<Detail shoes={shoes} />} />
+          <Route path="/detail/:link" element={<Detail shoes={moreshoes} />} />
 
           <Route path="/cs" element={<Cs />}>
             <Route path="qna" element={<div>qna</div>} />
@@ -172,25 +115,51 @@ function App() {
 
     </div>
   );
-  function Card(props) {
-    let navigate = useNavigate();
+  // function Card(props) {
+  //   let navigate = useNavigate();
+
+  //   return (
+  //     <Col md={4} >
+  //       <div onClick={() => { navigate(`/detail/${props.shoes.id}`) }} >
+  //         <img src={`img/shoes${props.shoes.id}.jpeg`} width="80%" />
+  //         <p className='fs-3 fw-bold'>{props.shoes.title}</p>
+  //         <p className='fs-6 fw-light'>{props.shoes.content}</p>
+  //         <p className='fs-5 fw-bolder'>{props.shoes.price}원</p>
+
+  //       </div>
+  //     </Col>
+  //   )
+
+  // }
+
+
+  function Home() {
 
     return (
+      <Row>
+        {
+          moreshoes.map((a, i) => {
+            console.log(i + 1 + ' 번째 상품 리스트 생성')
+            return (
+              <Col md={4} >
+                <div onClick={() => { navigate(`/detail/${a.id}`) }} >
+                  <img src={`img/shoes${a.id}.jpeg`} width="80%" />
+                  <p className='fs-3 fw-bold'>{a.title}</p>
+                  <p className='fs-6 fw-light'>{a.content}</p>
+                  <p className='fs-5 fw-bolder'>{a.price}원</p>
+
+                </div>
+              </Col>
+
+              // <Card shoes={a} key={i} />
+            )
+          })
+        }
+      </Row>
 
 
-      <Col md={4} >
-        <div onClick={() => { navigate(`/detail/${props.shoes.id}`) }} >
-          <img src={`img/shoes${props.shoes.id}.jpeg`} width="80%" />
-          <p className='fs-3 fw-bold'>{props.shoes.title}</p>
-          <p className='fs-6 fw-light'>{props.shoes.content}</p>
-          <p className='fs-5 fw-bolder'>{props.shoes.price}원</p>
-
-        </div>
-      </Col>
     )
-
   }
-
 }
 
 export default App;
