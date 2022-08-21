@@ -5,12 +5,12 @@ import { Routes, Route, Link, useNavigate, Outlet, useParams } from 'react-route
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
-import { Button, Container, Nav, Navbar, Row, Col, Carousel } from 'react-bootstrap';
+import { Button, Container, Nav, Navbar, Row, Col, ListGroup, Card } from 'react-bootstrap';
 
 import shoesdata from './store/data';
 import Detail from './page/Detail';
 import Cart from './page/Cart';
-import { Home, Card } from './page/Home';
+// import { Home, Card } from './page/Home';
 import { Cs } from './page/Cs';
 
 
@@ -28,6 +28,18 @@ function App() {
   let [clickCount, setClickCount] = useState(0)
   let [serverData, setServerData] = useState();
 
+  // 로컬스토리지에 빈 배열을 저장한다 > 최근 본 상품 기능
+  useEffect(() => {
+    localStorage.setItem('viewed', JSON.stringify([]))
+    console.log('로컬스토리지 저장완료')
+  }
+    , [])
+
+
+  let viewedId;
+  viewedId = localStorage.getItem('viewed')  
+  viewedId = JSON.parse(viewedId)
+  console.log(viewedId)
   return (
     <div className="App">
 
@@ -45,9 +57,6 @@ function App() {
         <Row className="py-3 my-3">
         </Row>
 
-
-
-
         <Routes>
           <Route path="/"
             element={
@@ -56,8 +65,26 @@ function App() {
                 <Row>
                   <img src="img/bg.png" />
                 </Row>
-                <Home />
+                <Row>
+                  <Card style={{ width: '18rem' }}>
+                    <Card.Header>최근 본 상품</Card.Header>
+                    <ListGroup variant="flush">
+                    </ListGroup>
+                  </Card>
+{
 
+
+  viewedId.map((a, i)=>{
+    return (
+      <img src={`img/shoes${a}.jpeg`} width="20%" />
+
+  )})
+  
+}
+  <Viewed />
+                </Row>
+
+                <Home />
                 <Row>
                   <Button variant="light" onClick={() => {
                     if (clickCount == 0) {
@@ -160,6 +187,22 @@ function App() {
 
     )
   }
+
+  function Viewed(props) {
+
+    return (
+          <ListGroup.Item>
+            <img src={`/img/shoes1.jpeg`} width="100%" />
+          </ListGroup.Item>
+
+    )
+  }
+
+
 }
+
+
+
+
 
 export default App;

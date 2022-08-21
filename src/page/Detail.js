@@ -21,8 +21,12 @@ function Detail(props) {
 
     // console.log(findShoes)
 
-    // [1] alertbox의 상태값을 저장한다
+
+    // =========================================================
+    //      상세페이지 처음 진입 시 할인 내용 알럿 떴다가 사라진다
+    // =========================================================
     let [showAlert, setShowAlert] = useState(true)
+    let [showCartAlert, setShowCartAlert] = useState(false)
 
     useEffect(() => {
         let timer = setTimeout(() => {
@@ -34,16 +38,48 @@ function Detail(props) {
             clearTimeout(timer)
             console.log('detail 페이지 업데이트/언마운트 됨')
         }
-    })
-    // [3] detail 렌더링된 후 2초 경과시 showAlert 상태 false로 바꾼다
+    }, [])
+
+    // =========================================================
+    //      장바구니 알럿 뜨고 2초 지나면 사라지게 한다
+    // =========================================================
+    useEffect(() => {
+        let timer = setTimeout(() => {
+            setShowCartAlert(false);
+        }, 2000)
+
+        return () => {
+            clearTimeout(timer)
+        }
+    }, [showCartAlert])
+
+    // =========================================================
+    //      상품의 Id를 로컬스토리지에 array로 저장한다
+    // =========================================================
+
+    // localStorage.getItem('viewed')
+    let pulled = localStorage.getItem(('viewed'))
+    let lsItem =  JSON.parse(pulled)
+    
+    lsItem.push(findShoes.id)
+    let rmv = [...new Set(lsItem)]
+    console.log(rmv)
+
+    localStorage.setItem('viewed', JSON.stringify(rmv))
+    console.log('로컬저장완료')
+
 
     return (
-
         <Container>
 
-            {/* [2] showAlert의 상태값 따라 알럿이 보이거나 사라짐 */}
-            {showAlert == true ?
-                <Alertbox color="warning" text="2초 안에 구매시 90% 할인" /> :
+            {
+                showAlert == true ?
+                    <Alertbox color="warning" text="2초 안에 구매시 90% 할인" /> :
+                    null
+            }
+
+            {showCartAlert == true ?
+                <Alertbox color="success" text="장바구니에 잘 담았어요 :)" /> :
                 null
             }
             <Row>
@@ -56,8 +92,8 @@ function Detail(props) {
 
                     <p className='fs-5 fw-semibold'>{findShoes.price + '원'}</p>
                     <Button onClick={() => {
-                        dispatch(addCart({id : findShoes.id , title : findShoes.title, price: findShoes.price, count : 1}))
-
+                        dispatch(addCart({ id: findShoes.id, title: findShoes.title, price: findShoes.price, count: 1 }))
+                        setShowCartAlert(true)
                     }} variant='success'>장바구니 담기</Button>
                 </Col>
             </Row>
