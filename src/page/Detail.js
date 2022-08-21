@@ -61,7 +61,7 @@ function Detail(props) {
     let pulled = localStorage.getItem(('viewed'))
     let lsItem =  JSON.parse(pulled)
     
-    lsItem.push(findShoes.id)
+    lsItem.unshift(findShoes.id)
     let rmv = [...new Set(lsItem)]
     console.log(rmv)
 

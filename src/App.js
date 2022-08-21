@@ -37,7 +37,7 @@ function App() {
 
 
   let viewedId;
-  viewedId = localStorage.getItem('viewed')  
+  viewedId = localStorage.getItem('viewed')
   viewedId = JSON.parse(viewedId)
   console.log(viewedId)
   return (
@@ -61,27 +61,39 @@ function App() {
           <Route path="/"
             element={
               <div>
-
                 <Row>
                   <img src="img/bg.png" />
                 </Row>
+
                 <Row>
-                  <Card style={{ width: '18rem' }}>
-                    <Card.Header>최근 본 상품</Card.Header>
-                    <ListGroup variant="flush">
-                    </ListGroup>
-                  </Card>
-{
+                  <Col sm={4}>
+                    <Card style={{ width: '100%' }}>
+                      <Card.Header>최근 본 상품</Card.Header>
+                      <ListGroup>
 
+                        {
 
-  viewedId.map((a, i)=>{
-    return (
-      <img src={`img/shoes${a}.jpeg`} width="20%" />
+                          // 최근 본 상품이 있다면 이미지 보여주고, 없다면 텍스트 출력
+                          viewedId.length > 0 ?
 
-  )})
-  
-}
-  <Viewed />
+                            viewedId.map((a, i) => {
+                              return (
+                                <ListGroup.Item>
+                                  <img src={`/img/shoes${a}.jpeg`} width="80%"
+                                    onClick={() => {
+                                      navigate(`/detail/${a}`)
+                                    }} />
+                                </ListGroup.Item>
+                              )
+                            })
+                            :
+                            <ListGroup className='p-5 my-5'>
+                              최근 본 상품이 없어요 :(
+                            </ListGroup>}
+                      </ListGroup>
+
+                    </Card>
+                  </Col>
                 </Row>
 
                 <Home />
@@ -142,22 +154,7 @@ function App() {
 
     </div>
   );
-  // function Card(props) {
-  //   let navigate = useNavigate();
 
-  //   return (
-  //     <Col md={4} >
-  //       <div onClick={() => { navigate(`/detail/${props.shoes.id}`) }} >
-  //         <img src={`img/shoes${props.shoes.id}.jpeg`} width="80%" />
-  //         <p className='fs-3 fw-bold'>{props.shoes.title}</p>
-  //         <p className='fs-6 fw-light'>{props.shoes.content}</p>
-  //         <p className='fs-5 fw-bolder'>{props.shoes.price}원</p>
-
-  //       </div>
-  //     </Col>
-  //   )
-
-  // }
 
 
   function Home() {
@@ -191,9 +188,9 @@ function App() {
   function Viewed(props) {
 
     return (
-          <ListGroup.Item>
-            <img src={`/img/shoes1.jpeg`} width="100%" />
-          </ListGroup.Item>
+      <ListGroup.Item>
+        <img src={`/img/shoes1.jpeg`} width="80%" />
+      </ListGroup.Item>
 
     )
   }
