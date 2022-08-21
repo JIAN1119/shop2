@@ -1,13 +1,22 @@
-import { useEffect, useState } from 'react';
-import { Button, Container, Nav, Navbar, Row, Col, Alert } from 'react-bootstrap';
 import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import { useSelector } from "react-redux";
+import axios from 'axios';
+
+import { Button, Container, Nav, Navbar, Row, Col, Alert } from 'react-bootstrap';
+
 
 function Detail(props) {
-    let [count, setCount] = useState(true)
+    
     let { link } = useParams();
 
-    // 배열 내에서 id가 {link}인 오브젝트를 찾아 전체 값을 반환한다
-    let findShoes = props.shoes.find((a) => { return a.id == link })
+    
+    let [findShoes, setFindShoes] =useState()
+    findShoes = props.shoes.find((a)=>{ return a.id == link})
+
+    console.log(props.shoes)
+    
+
 
 
     // [1] alertbox의 상태값을 저장한다
@@ -17,11 +26,11 @@ function Detail(props) {
         let timer = setTimeout(() => {
             setShowAlert(false);
         }, 2000)
-        console.log('detail 렌더링후 2초경과')
+        console.log('detail 마운트/업데이트 됨')
 
         return () => {
             clearTimeout(timer)
-            console.log('클린업펑션 동작')
+            console.log('detail 페이지 업데이트/언마운트 됨')
         }
     })
     // [3] detail 렌더링된 후 2초 경과시 showAlert 상태 false로 바꾼다
@@ -47,6 +56,7 @@ function Detail(props) {
                 <Col md={6}>
                     <p className='fs-3 fw-semibold'>{findShoes.title}</p>
                     <p>{findShoes.content}</p>
+
                     <p className='fs-5 fw-semibold'>{findShoes.price + '원'}</p>
                     <Button variant='success'>장바구니 담기</Button>
                 </Col>

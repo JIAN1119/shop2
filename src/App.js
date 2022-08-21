@@ -1,22 +1,77 @@
 
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Routes, Route, Link, useNavigate, Outlet, useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 import { Button, Container, Nav, Navbar, Row, Col, Carousel } from 'react-bootstrap';
 
 import shoesdata from './store/data';
 import Detail from './page/Detail';
+import Cart from './page/Cart';
 import { Home, Card } from './page/Home';
 import { Cs } from './page/Cs';
 
 
 function App() {
-  let {link} = useParams();
-  let [shoes, setShoes] = useState(shoesdata);
-  // let findShoes = shoes.find((a)=>{ return a.id == link})
-
+  let { link } = useParams();
   let navigate = useNavigate();
+
+  let [shoes, setShoes] = useState(shoesdata);
+
+  let shoes2 = useSelector((state) => { return state.shoesdata })
+  let [moreshoes, setMoreShoes] = useState(shoes2)
+
+
+  // Home컴포넌트 변수
+  let [clickCount, setClickCount] = useState(0)
+  let [serverData, setServerData] = useState();
+
+  
+
+
+  // useEffect(() => {
+
+  //   axios.get('https://codingapple1.github.io/shop/data2.json').then((result) => {
+
+  //     console.log(result.data)
+  //     let shoesCopy = [...moreshoes, ...result.data];
+  //     setMoreShoes(shoesCopy);
+  //     console.log('데이터2 로드함수 마운트/업데이트')
+
+  //     console.log(moreshoes)
+  //   })
+  //     .catch(() => {
+  //       console.log('요청실패')
+  //     })
+
+  //   return () => {
+  //     console.log('데이터2 로드함수 클린업')
+  //   }
+
+  // }, [])
+
+  // useEffect(() => {
+
+  //   axios.get('https://codingapple1.github.io/shop/data3.json').then((result) => {
+  //     console.log('데이터3 로드함수 마운트/업데이트')
+  //     console.log(result.data)
+
+  //     let shoesCopy2 = [...moreshoes, ...result.data];
+  //     setMoreShoes(shoesCopy2);
+
+  //     console.log(moreshoes)
+  //   })
+  //     .catch(() => {
+  //       console.log('요청실패')
+  //     })
+
+  //   return () => {
+  //     console.log('데이터3 로드함수 클린업')
+  //   }
+
+  // }, [])
 
 
   return (
@@ -27,9 +82,10 @@ function App() {
         <Navbar fixed="top" bg="success" variant="dark">
           <Navbar.Brand onClick={() => { navigate('/') }}>지안마트</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link onClick={()=>{ navigate('/store')}}>스토어</Nav.Link>
+            <Nav.Link onClick={() => { navigate('/store') }}>스토어</Nav.Link>
             <Nav.Link onClick={() => { navigate('/detail') }}>detail</Nav.Link>
             <Nav.Link onClick={() => { navigate('/cs') }}>고객센터</Nav.Link>
+            <Nav.Link onClick={() => { navigate('/cart') }}>장바구니</Nav.Link>
           </Nav>
         </Navbar>
         <Row className="py-3 my-3">
@@ -41,7 +97,55 @@ function App() {
           <Route path="/"
             element={
               <div>
-                <Home shoes={shoes} />
+
+                <Row>
+                  <img src="img/bg.png" />
+                </Row>
+                <Row>
+                  {
+                    moreshoes.map((a, i) => {
+                      console.log(i + 1 + ' 번째 상품 리스트 생성')
+                      return (
+                        <Card shoes={a} key={i} />
+                      )
+                    })
+                  }
+                </Row>
+
+                <Row>
+
+                  <Button variant="light" onClick={() => {
+
+                    if (clickCount == 0) {
+                      setClickCount(clickCount + 1)
+                      console.log('1회클릭')
+                      axios.get('https://codingapple1.github.io/shop/data2.json').then((result) => {
+                        let shoesCopy = [...moreshoes, ...result.data];
+                        setMoreShoes(shoesCopy);
+                        console.log(moreshoes)
+                      })
+                        .catch(() => {
+                          console.log('요청실패')
+                        })
+
+                    } else if (clickCount == 1) {
+                      setClickCount(clickCount + 1)
+                      console.log('2회클릭')
+                      axios.get('https://codingapple1.github.io/shop/data3.json').then((result) => {
+                        let shoesCopy = [...moreshoes, ...result.data];
+                        setMoreShoes(shoesCopy);
+                        console.log(moreshoes)
+                      })
+                        .catch(() => {
+                          console.log('요청실패')
+                        })
+
+
+                    }
+                  }}>상품 더보기</Button>
+
+
+                </Row>
               </div>} />
 
           <Route path="/detail/:link" element={<Detail shoes={shoes} />} />
@@ -52,6 +156,7 @@ function App() {
           </Route>
 
           <Route path="/store" element={<div>스토어페이지입니다</div>} />
+          <Route path="/cart" element={<Cart />} />
 
           <Route path="*" element={
             <div>
@@ -67,7 +172,24 @@ function App() {
 
     </div>
   );
+  function Card(props) {
+    let navigate = useNavigate();
 
+    return (
+
+
+      <Col md={4} >
+        <div onClick={() => { navigate(`/detail/${props.shoes.id}`) }} >
+          <img src={`img/shoes${props.shoes.id}.jpeg`} width="80%" />
+          <p className='fs-3 fw-bold'>{props.shoes.title}</p>
+          <p className='fs-6 fw-light'>{props.shoes.content}</p>
+          <p className='fs-5 fw-bolder'>{props.shoes.price}원</p>
+
+        </div>
+      </Col>
+    )
+
+  }
 
 }
 
