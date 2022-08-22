@@ -48,25 +48,29 @@ let cart = createSlice({
             let idx = state.findIndex((a) => {
                 return a.id == action.payload
             });
-            state[idx].count = state[idx].count + 1 
+            state[idx].count = state[idx].count + 1
             console.log(idx)
             console.log(state[idx].count)
         },
         addCart(state, action) {
-            let isInCart = state.findIndex((a)=>{
-                return a.id == action.payload.id 
+            let isInCart = state.findIndex((a) => {
+                return a.id == action.payload.id
             })
             console.log(isInCart)
-            if(isInCart < 0 ){
+            if (isInCart < 0) {
                 console.log('처음 담은 상품')
                 state.push(action.payload)
             } else {
                 console.log('이미 담은 상품')
                 state[isInCart].count++
             }
-         console.log('장바구니 담음')
-         console.log(action.payload.id)
-        }
+            console.log('장바구니 담음')
+            console.log(action.payload.id)
+        },
+        addCartQty(state) {
+            console.log(state.length)
+
+    }
     }
 
 
@@ -81,4 +85,4 @@ export default configureStore({
 })
 
 // 변경함수
-export let { countUp, addCart } = cart.actions
+export let { countUp, addCart, addCartQty } = cart.actions

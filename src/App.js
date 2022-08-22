@@ -5,7 +5,9 @@ import { Routes, Route, Link, useNavigate, Outlet, useParams } from 'react-route
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
-import { Button, Container, Nav, Navbar, Row, Col, ListGroup, Card } from 'react-bootstrap';
+import { BsCart, BsFillCircleFill } from "react-icons/bs";
+import { RiCheckboxBlankCircleFill, RiNumber1 } from "react-icons/ri";
+import { Button, Container, Nav, Navbar, Row, Col, ListGroup, Card, Badge } from 'react-bootstrap';
 
 import shoesdata from './store/data';
 import Detail from './page/Detail';
@@ -18,10 +20,16 @@ function App() {
   let { link } = useParams();
   let navigate = useNavigate();
 
-  let [shoes, setShoes] = useState(shoesdata);
+  let [shoes, setShoes] = useState(shoesdata); // 상품 데이터 (원본)
 
+  // 처음 홈에 출력되는 상품
   let shoes2 = useSelector((state) => { return state.shoesdata })
-  let [moreshoes, setMoreShoes] = useState(shoes)
+
+  // 장바구니 내 상품
+  let cartItem = useSelector((state) => { return state.cart })
+  let cartNum = shoes2.length
+
+  let [moreshoes, setMoreShoes] = useState(shoes) // 상품 데이터 (갱신됨)
 
 
   // Home컴포넌트 변수
@@ -36,6 +44,12 @@ function App() {
     , [])
 
 
+  // 카트에 상품 추가되면, 뱃지 숫자 변경한다
+  // 카트 내 리스트 추가 감지하거나, store내에서 변경 감지한다
+  // useEffect(()=>{
+
+  // },[카트 변경값])
+
   let viewedId;
   viewedId = localStorage.getItem('viewed')
   viewedId = JSON.parse(viewedId)
@@ -45,14 +59,34 @@ function App() {
 
       <Container fluid>
 
-        <Navbar fixed="top" bg="success" variant="dark">
+        <Navbar className="px-3" fixed="top" bg="light" variant="light">
           <Navbar.Brand onClick={() => { navigate('/') }}>지안마트</Navbar.Brand>
+
           <Nav className="me-auto">
             <Nav.Link onClick={() => { navigate('/store') }}>스토어</Nav.Link>
-            <Nav.Link onClick={() => { navigate('/detail') }}>detail</Nav.Link>
+            {/* <Nav.Link onClick={() => { navigate('/detail') }}>detail</Nav.Link> */}
             <Nav.Link onClick={() => { navigate('/cs') }}>고객센터</Nav.Link>
-            <Nav.Link onClick={() => { navigate('/cart') }}>장바구니</Nav.Link>
           </Nav>
+
+          <Nav>
+            {/* <Nav.Link className='justify-content-end' onClick={() => { navigate('/cart') }}>장바구니</Nav.Link> */}
+
+            {/* 장바구니 아이콘 */}
+            <Nav.Link onClick={() => { navigate('/cart') }}>
+              <div style={{ position: 'relative' }}>
+                <BsCart style={{ strokeWidth: '0.8', fontSize: '2rem', color: 'black', strokeLinecap: 'round' }} />
+
+                <div style={{ position: 'absolute', top: '-30%', right: '-20%' }}>
+                  <Badge className="p-1" bg="danger" text="light">
+                    {cartItem.length}
+                  </Badge>
+                </div>
+              </div>
+            </Nav.Link>
+          </Nav>
+
+
+
         </Navbar>
         <Row className="py-3 my-3">
         </Row>
@@ -122,15 +156,19 @@ function App() {
                         .catch(() => {
                           console.log('요청실패')
                         })
-
+                    } else {
+                      console.log('3ghl')
 
                     }
                   }}>상품 더보기</Button>
+
+{ clickCount > 1 ? <div className='my-3'>더 보여줄 상품이 없어요 :(</div> : null}
+
                 </Row>
                 {/* <Outlet></Outlet> */}
               </div>} />
 
-          <Route path="/detail/:link" element={<Detail shoes={moreshoes} />} />
+          <Route path="/detail/:link" element={<Detail shoes={moreshoes} cartNum={cartNum} />} />
 
           <Route path="/cs" element={<Cs />}>
             <Route path="qna" element={<div>qna</div>} />
@@ -152,7 +190,7 @@ function App() {
       </Container>
 
 
-    </div>
+    </div >
   );
 
 
