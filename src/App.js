@@ -13,7 +13,13 @@ import shoesdata from './store/data';
 import Detail from './page/Detail';
 import Cart from './page/Cart';
 // import { Home, Card } from './page/Home';
+<<<<<<< Updated upstream
 import { Cs } from './page/Cs';
+=======
+import { Order } from './page/Order';
+import Test from './page/test';
+import { Cs, Qna, Fna, Notice } from './page/Cs';
+>>>>>>> Stashed changes
 
 
 function App() {
@@ -177,7 +183,12 @@ function App() {
 
           <Route path="/store" element={<div>스토어페이지입니다</div>} />
           <Route path="/cart" element={<Cart />} />
+<<<<<<< Updated upstream
 
+=======
+          <Route path="/order" element={<Order />} />
+          <Route path="/test" element={<Test />} />
+>>>>>>> Stashed changes
           <Route path="*" element={
             <div>
               <p className='fs-1'>404</p>
