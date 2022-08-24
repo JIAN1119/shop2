@@ -16,13 +16,11 @@ import Detail from './page/Detail';
 import Cart from './page/Cart';
 
 // import { Home, Card } from './page/Home';
-<<<<<<< HEAD
+
 
 import { Order } from './page/Order';
 import Test from './page/test';
-=======
-import { Order } from './page/Order';
->>>>>>> cs
+
 import { Cs, Qna, Fna, Notice } from './page/Cs';
 
 
@@ -215,13 +213,10 @@ function App() {
 
           <Route path="/store" element={<div>스토어페이지입니다</div>} />
           <Route path="/cart" element={<Cart />} />
-<<<<<<< HEAD
 
           <Route path="/order" element={<Order />} />
           <Route path="/test" element={<Test />} />
-=======
-          <Route path="/order" element={<Order />} />
->>>>>>> cs
+
           <Route path="*" element={
             <div>
               <p className='fs-1'>404</p>
