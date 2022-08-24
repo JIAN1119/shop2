@@ -1,10 +1,6 @@
-<<<<<<< Updated upstream
-import { configureStore, createSlice } from '@reduxjs/toolkit'
-=======
 import { configureStore, createSlice, current } from '@reduxjs/toolkit'
-import fnadata from './csData'
+// import fnadata from './csData'
 import noticeData from './noticeData'
->>>>>>> Stashed changes
 
 let user = createSlice({
     name: 'user',
@@ -59,8 +55,8 @@ let cart = createSlice({
         },
 
         countDown(state, action) {
-            let idx = state.findIndex( (a) => a.id == action.payload )
-            if ( state[idx].count > 1 ){
+            let idx = state.findIndex((a) => a.id == action.payload)
+            if (state[idx].count > 1) {
                 state[idx].count = state[idx].count - 1
             }
         },
@@ -83,16 +79,14 @@ let cart = createSlice({
 
         // 장바구니에서 해당 품목 삭제한다
         rmvCart(state) {
-
-            for(var i = 0; i < state.length; i++){ 
-                if (state[i].checked == true) { 
-                  state.splice(i, 1);
-                  i--; 
+            for (var i = 0; i < state.length; i++) {
+                if (state[i].checked == true) {
+                    state.splice(i, 1);
+                    i--;
                 }
-              }
-
+            }
         },
-        
+
         setCheckbox(state, action) {
             // 방법2-2 바로 체크값 반대로
             let finded = state.find((a) => a.id == action.payload.id)
@@ -104,9 +98,9 @@ let cart = createSlice({
 
         // 체크된 항목들의 합계 계산 (수량상관X)
         selectChecked(state) {
-            state.filter( (a) => a.checked == true )
-            .map( (a) => a.price)
-            .reduce( (tot, a) => tot + a , 0 )
+            state.filter((a) => a.checked == true)
+                .map((a) => a.price)
+                .reduce((tot, a) => tot + a, 0)
 
         }
 
@@ -122,14 +116,10 @@ export default configureStore({
     reducer: {
         user: user.reducer,
         cart: cart.reducer,
-<<<<<<< Updated upstream
-        shoesdata: shoesdata.reducer
-=======
         shoesdata: shoesdata.reducer,
-        fnadata: fnadata.reducer,
+        // fnadata: fnadata.reducer,
         noticeData: noticeData.reducer
 
->>>>>>> Stashed changes
     }
 })
 

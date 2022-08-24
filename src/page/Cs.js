@@ -1,25 +1,14 @@
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
-<<<<<<< Updated upstream
-=======
+
 import { Nav, Accordion, Table, Container, Row, Col } from 'react-bootstrap'
 import { useSelector } from 'react-redux';
 import noticeData from '../store/noticeData';
 // import { fnadata } from './../store/csData.js'
->>>>>>> Stashed changes
 
 
 function Cs (){
 
-<<<<<<< Updated upstream
-    return(
-        <div>
-            <p className='fs-1'>고객센터</p>
-            <p>(공통 : 탭메뉴 만들기)</p>
-            <Outlet/>
-            <p>하위경로 영역 시작</p>
 
-        </div>
-=======
     // let fnaData = useSelector((state) => { return state.csFnaData })
     let fnaData = useSelector((state) => { return state.fnadata })
     let noticeData = useSelector((state) => { return state.noticeData })
@@ -102,13 +91,11 @@ function FnaList({ title, content, index }) {
                 {content}
             </Accordion.Body>
         </Accordion.Item>
->>>>>>> Stashed changes
+
 
     )
 }
 
-<<<<<<< Updated upstream
-=======
 function Notice() {
     let noticeData = useSelector((state) => { return state.noticeData })
 
@@ -182,6 +169,5 @@ function NoticeList({ type, title, date, content }) {
 
     )
 }
->>>>>>> Stashed changes
 
 export { Cs }
