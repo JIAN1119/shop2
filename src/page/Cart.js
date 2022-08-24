@@ -34,7 +34,7 @@ function Cart() {
     let sum4 = 0
     let sum3 = cartItem.filter( (a) => a.checked == true )
         .map( (a) => a.price * a.count)
-        .reduce( (tot, a) => tot + a)
+        .reduce( (tot, a) => tot + a, 0)
 
     console.log(sum3)
 
