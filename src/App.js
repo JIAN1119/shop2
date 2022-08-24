@@ -5,17 +5,24 @@ import { Routes, Route, Link, useNavigate, Outlet, useParams } from 'react-route
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
+// 부트스트랩 라이브러리
 import { BsCart, BsFillCircleFill } from "react-icons/bs";
 import { RiCheckboxBlankCircleFill, RiNumber1 } from "react-icons/ri";
 import { Button, Container, Nav, Navbar, Row, Col, ListGroup, Card, Badge } from 'react-bootstrap';
 
+// 데이터
 import shoesdata from './store/data';
 import Detail from './page/Detail';
 import Cart from './page/Cart';
+
 // import { Home, Card } from './page/Home';
+<<<<<<< HEAD
 
 import { Order } from './page/Order';
 import Test from './page/test';
+=======
+import { Order } from './page/Order';
+>>>>>>> cs
 import { Cs, Qna, Fna, Notice } from './page/Cs';
 
 
@@ -165,7 +172,7 @@ function App() {
                     }
                   }}>상품 더보기</Button>
 
-{ clickCount > 1 ? <div className='my-3'>더 보여줄 상품이 없어요 :(</div> : null}
+                  {clickCount > 1 ? <div className='my-3'>더 보여줄 상품이 없어요 :(</div> : null}
 
                 </Row>
                 {/* <Outlet></Outlet> */}
@@ -173,16 +180,48 @@ function App() {
 
           <Route path="/detail/:link" element={<Detail shoes={moreshoes} cartNum={cartNum} />} />
 
-          <Route path="/cs" element={<Cs />}>
-            <Route path="qna" element={<div>qna</div>} />
-            <Route path="fna" element={<div>fna</div>} />
+          <Route path="/cs" element={
+            <Container>
+              <Row>
+                <Cs/>
+                {/* <Nav justify variant="tabs" defaultActiveKey="0">
+                  <Nav.Item>
+                    <Nav.Link eventKey="0" onClick={() => {
+                      navigate('cs/fna')
+                    }}>자주묻는질문</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="1" onClick={() => {
+                      navigate('cs/notice')
+                    }}>공지사항</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="2" onClick={()=>{
+                      navigate('/cs/qna')
+                    }}>문의하기</Nav.Link>
+                  </Nav.Item>
+                </Nav> */}
+              </Row>
+              <Row>
+                {/* <Outlet /> */}
+              </Row>
+            </Container>
+
+          }>
+            <Route path="qna" element={<Qna />} />
+            <Route path="fna" element={<Fna />} />
+            <Route path="notice" element={<Notice />} />
           </Route>
 
           <Route path="/store" element={<div>스토어페이지입니다</div>} />
           <Route path="/cart" element={<Cart />} />
+<<<<<<< HEAD
 
           <Route path="/order" element={<Order />} />
           <Route path="/test" element={<Test />} />
+=======
+          <Route path="/order" element={<Order />} />
+>>>>>>> cs
           <Route path="*" element={
             <div>
               <p className='fs-1'>404</p>
@@ -192,7 +231,7 @@ function App() {
         </Routes>
 
 
-      </Container>
+      </Container >
 
 
     </div >

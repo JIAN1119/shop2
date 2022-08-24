@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Table, Stack, Button, Form } from 'react-bootstrap'
 import { useSelector, useDispatch } from "react-redux"
 import { countUp, countDown, setCheckbox, selectChecked, rmvCart } from '../store/store';
+
 import { Routes, Route, Link, useNavigate, Outlet, useParams } from 'react-router-dom'
 
 function Cart() {
@@ -10,6 +11,7 @@ function Cart() {
     // 1. 처음 장바구니 진입 시, 담은 상품들 계산되어 있어야 함
     // 2. 수량 증가시 총액 갱신되어야 함
     // ====================================================
+
 
 
     let [payPrice, setPayPrice] = useState(0);
@@ -77,6 +79,7 @@ function Cart() {
                     {/* 장바구니 리스트 생성 */}
                     {
                         cartItem.map((a, i) => {
+
                             return (
                                 <tr key={a.id}>
                                     <td>
@@ -125,8 +128,7 @@ function Cart() {
 
                 <p className='fs-4 fw-bolder'>원</p>
                 <Button className='ms-auto' onClick={() => { navigate('/order') }}>주문하기</Button>
-
-            </Stack>
+</Stack>
             {/* <p className='fs-4 fw-bolder'>{ dispatch(selectChecked())}</p> */}
 {/* <Calsum/> */}
 
