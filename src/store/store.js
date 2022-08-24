@@ -41,7 +41,7 @@ let cart = createSlice({
     initialState:
         [
             { id: 0, title: 'White and Black', price: 10000, count: 1, checked: true },
-            { id: 2, title: 'Grey Yordan', price: 5000, count: 1, checked: false }
+            { id: 2, title: 'Grey Yordan', price: 5000, count: 1, checked: true }
         ]
     ,
     reducers: {
@@ -95,6 +95,19 @@ let cart = createSlice({
             // console.log(state[0].checked)
 
         },
+        setCheckboxAll(state, action) {
+            
+            for (let i = 0; i < state.length; i++) {
+                state[i].checked=true
+                // console.log(all)
+            }
+        },
+        clearCheckboxAll(state) {
+            for (let i = 0; i < state.length; i++) {
+                state[i].checked=false;
+                // console.log(all)
+            }
+        },
 
         // 체크된 항목들의 합계 계산 (수량상관X)
         selectChecked(state) {
@@ -103,14 +116,9 @@ let cart = createSlice({
                 .reduce((tot, a) => tot + a, 0)
 
         }
-
-
     }
 
 })
-
-
-
 
 export default configureStore({
     reducer: {
@@ -124,4 +132,4 @@ export default configureStore({
 })
 
 // 변경함수
-export let { countUp, countDown, addCart, rmvCart, setCheckbox, selectChecked } = cart.actions
+export let { countUp, countDown, addCart, rmvCart, setCheckbox, setCheckboxAll, clearCheckboxAll, selectChecked } = cart.actions
